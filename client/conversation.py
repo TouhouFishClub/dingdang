@@ -105,9 +105,7 @@ class Conversation(object):
 
             if input:
                 self.brain.query(input, self.wxbot)
-            elif config.get('shut_up_if_no_input', False):
-                self._logger.info("Active Listen return empty")
             else:
-                self.mic.say(u"什么?")
+                self._logger.info("Active Listen return empty")
             if self.pixels:
                 self.pixels.off()
