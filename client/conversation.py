@@ -7,6 +7,7 @@ from .brain import Brain
 from . import config
 from .drivers.pixels import Pixels
 from . import statistic
+from ai import  handleTxt
 
 
 class Conversation(object):
@@ -102,9 +103,12 @@ class Conversation(object):
 
             if self.pixels:
                 self.pixels.think()
-
             if input:
-                self.brain.query(input, self.wxbot)
+                ret = handleTxt(input)
+                if ret == "":
+                    self.brain.query(input, self.wxbot)
+                else:
+                    self.mic.say(ret)
             else:
                 self._logger.info("Active Listen return empty")
             if self.pixels:
