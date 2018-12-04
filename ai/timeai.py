@@ -26,5 +26,5 @@ def showtime():
     second = str(i.second)
     day = week_day_dict[i.weekday()]
 
-    ret = u"现在时刻是:" +year+u"年"+month+u"月"+date+u"日"+hour+u"点"+minute+u"分,"+day
+    ret = u"现在时刻是:" +month+u"月"+date+u"日"+hour+u"点"+minute+u"分,"+day
     return ret
