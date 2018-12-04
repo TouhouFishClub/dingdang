@@ -104,7 +104,7 @@ class Conversation(object):
             if self.pixels:
                 self.pixels.think()
             if input:
-                ret = handleTxt(input)
+                ret = handleTxt.handletxt(input)
                 if ret == "":
                     self.brain.query(input, self.wxbot)
                 else:
