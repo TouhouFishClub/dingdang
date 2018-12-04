@@ -1,11 +1,15 @@
 #-*-encoding:utf-8 -*-
 import weather
+import timeai
+
 
 def handletxt(txt):
     if txt.endswith(u"天气") and len(txt)<8 :
         ret = weather.getWeather(txt)
-    elif txt.index(u"行情")>0:
+    elif txt.find(u"行情")>0:
         ret = ""
+    elif txt.find(u"几点") >= 0 or txt.find(u"报时") >= 0:
+        ret = timeai.showtime()
     else:
         ret = ""
     return ret
