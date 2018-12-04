@@ -4,7 +4,7 @@ import timeai
 
 
 def handletxt(txt):
-    if txt.endswith(u"天气") and len(txt)<8 :
+    if txt.find(u"天气")>2 and len(txt)<8 :
         ret = weather.getWeather(txt)
     elif txt.find(u"行情")>0:
         ret = ""
