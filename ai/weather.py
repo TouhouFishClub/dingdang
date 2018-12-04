@@ -1,26 +1,31 @@
 #-*-encoding:utf-8 -*-
 import requests
 from bs4 import BeautifulSoup
+import urllib
 import sys
-
+import traceback
 
 
 session = requests.Session()
 
-def getWeather(area):
+def getWeather(content):
 	try:
-		url = 'http://www.baidu.com/s?wd=' + area + '天气'
+		n = content.index(u"天气")
+		city = content[0:n]
+		area = city
+		url = 'http://www.baidu.com/s?wd=' + urllib.quote((city+u"天气").encode("utf-8"))
+		print(url)
 		req = session.get(url)
 		soup = BeautifulSoup(req.text,'html.parser')
 		date = soup.find(attrs={'class':'op_weather4_twoicon_date'}).get_text().strip()
-		print('【' + area + '天气】')
+
 
 		try:
 			tempNumber = soup.find(attrs={'class':'op_weather4_twoicon_shishi_title'}).get_text().strip()
 			tempSup = soup.find(attrs={'class':'op_weather4_twoicon_shishi_sup'}).get_text().strip()
 			tempSub = soup.find(attrs={'class':'op_weather4_twoicon_shishi_sub'}).get_text().strip()
 			weatherReportNow = date + "\n" + tempNumber + tempSup + "  " + tempSub
-			print(weatherReportNow)
+			#print(weatherReportNow)
 		except:
 			pass
 
@@ -31,10 +36,12 @@ def getWeather(area):
 			dayQuailty = soup.find(attrs={'class':'op_weather4_twoicon_realtime_quality_wrap'}).span.span.get_text().strip()
 		except:
 			dayQuailty = ''
-		weatherReportDay = date + "\n" + dayTemp + "  " + dayWea + "," + dayWind + u",空气质量指数" + dayQuailty
-		print(weatherReportDay)
-		print('')
-		return weatherReportDay
-	except:
-		print('失败')
+		weatherReportDay = city + "\n" + date + "\n" + dayTemp + "  " + dayWea + "," + dayWind + u",空气质量指数" + dayQuailty
+		voiceReport = weatherReportDay.replace(u"~",u"至").replace(u"℃",u"度")
+		return voiceReport
+	except Exception, e:
+		print Exception, ":", e
+		traceback.print_exc()
+		print("获取"+content+"失败")
+		return ""
 
