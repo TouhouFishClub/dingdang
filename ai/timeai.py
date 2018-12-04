@@ -19,7 +19,6 @@ def showtime():
     year = ""
     for x in range(0, len(yearnum)):
         year = year + year_dict[int(yearnum[x])]
-    print(year)
     month = str(i.month)
     date = str(i.day)
     hour = str(i.hour)
