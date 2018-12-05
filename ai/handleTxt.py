@@ -4,7 +4,11 @@ import timeai
 
 
 def handletxt(txt):
-    txt = txt.decode("utf-8").strip()
+    txt = txt.strip()
+    try:
+        txt = txt.decode("utf-8")
+    except:
+        pass
     if txt.find(u"天气")>1 and len(txt)<8 :
         ret = weather.getWeather(txt)
     elif txt.find(u"行情")>0:
