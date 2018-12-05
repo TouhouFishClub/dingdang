@@ -2,7 +2,7 @@
 import handleTxt
 
 def test():
-    content = u"朝阳天气"
+    content = u"美国天气"
     ret = handleTxt.handletxt(content)
     print(ret)
 

@@ -18,8 +18,9 @@ def getWeather(content):
 		req = session.get(url)
 		soup = BeautifulSoup(req.text,'html.parser')
 		date = soup.find(attrs={'class':'op_weather4_twoicon_date'}).get_text().strip()
-
-
+		n = date.find(u"农历")
+		if n>0:
+			date = date[0:n]
 		try:
 			tempNumber = soup.find(attrs={'class':'op_weather4_twoicon_shishi_title'}).get_text().strip()
 			tempSup = soup.find(attrs={'class':'op_weather4_twoicon_shishi_sup'}).get_text().strip()
@@ -30,14 +31,17 @@ def getWeather(content):
 			pass
 
 		dayTemp = soup.find(attrs={'class':'op_weather4_twoicon_temp'}).get_text().strip()
+		dayTemp = dayTemp.replace("-",u"零下").replace(u"~",u"至").replace(u"℃",u"度")
 		dayWea = soup.find(attrs={'class':'op_weather4_twoicon_weath'}).get_text().strip()
 		dayWind = soup.find(attrs={'class':'op_weather4_twoicon_wind'}).get_text().strip()
 		try:
 			dayQuailty = soup.find(attrs={'class':'op_weather4_twoicon_realtime_quality_wrap'}).span.span.get_text().strip()
 		except:
 			dayQuailty = ''
-		weatherReportDay = city + "\n" + date + "\n" + dayTemp + "  " + dayWea + "," + dayWind + u",空气质量指数" + dayQuailty
-		voiceReport = weatherReportDay.replace(u"~",u"至").replace(u"℃",u"度")
+		weatherReportDay = city + "\n" + date + "\n" + dayTemp + "  " + dayWea + "," + dayWind
+		if dayQuailty!='':
+			u",空气质量指数" + dayQuailty
+		voiceReport = weatherReportDay
 		return voiceReport
 	except Exception, e:
 		print Exception, ":", e
